@@ -5,7 +5,7 @@ public class Main {
         int fin = 20;
         boolean par = false;
 
-        while(inicio <= fin){
+    /*    while(inicio <= fin){
             if (par) {
                 if (inicio%2==0) {
                     System.out.println(inicio);
@@ -17,5 +17,11 @@ public class Main {
             }
             inicio=inicio+1;
         }
+    } */
+        for (int i = fin; i >= inicio; i--) {
+                if (i % 2 == 0) {
+                    System.out.println(i);
+                }
+            }
+        }
     }
-}
