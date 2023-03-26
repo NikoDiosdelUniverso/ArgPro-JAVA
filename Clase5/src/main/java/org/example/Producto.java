@@ -3,9 +3,9 @@ package org.example;
 public class Producto {
 
     private String nombre;
-    private int precio;
+    private double precio;
 
-    public Producto(String nombre, int precio) {
+    public Producto(String nombre, double precio) {
         this.nombre = nombre;
         this.precio = precio;
     }
@@ -14,7 +14,7 @@ public class Producto {
         return nombre;
     }
 
-    public int getPrecio() {
+    public double getPrecio() {
         return precio;
     }
 

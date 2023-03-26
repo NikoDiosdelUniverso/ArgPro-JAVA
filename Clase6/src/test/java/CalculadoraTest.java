@@ -1,4 +1,5 @@
 import org.example.Calculadora;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -7,7 +8,12 @@ import static org.junit.Assert.assertNotEquals;
 
 public class CalculadoraTest {
 
-    Calculadora calculadora = new Calculadora();
+    Calculadora calculadora;
+
+    @Before
+    public void antes(){
+        calculadora = new Calculadora();
+    }
 
     @Test
     public void testMultiplicar() {
