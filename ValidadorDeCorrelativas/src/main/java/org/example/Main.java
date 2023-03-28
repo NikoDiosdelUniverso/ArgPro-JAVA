@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 public class Main {
 
@@ -31,17 +30,20 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         // Inicializar materias: crear 3 o 4 materias, con y sin correlativas entre ellas
-        ArrayList<Materia> vacio = new ArrayList<>();
-        Materia programacion1 = new Materia("Programacion I", vacio);
-        Materia programacion2 = new Materia("Programacion II", new ArrayList<>(List.of(programacion1)));
-        Materia basesDeDatos = new Materia("Bases de datos I", vacio);
+        //ArrayList<Materia> vacio = new ArrayList<>();
+        Materia programacion1 = new Materia("Programacion I");
+        Materia programacion2 = new Materia("Programacion II");
+        programacion2.setCorrelativas(programacion1);
+        Materia basesDeDatos = new Materia("Bases de datos I");
         Collection<Materia> materias = new ArrayList<>(Arrays.asList(programacion1, programacion2, basesDeDatos));
 
         // Inicializar los alumnos, crear 2 o 3 alumnos, con y sin materias aprobadas.
         // Usar para las materias los MISMOS objetos de la colección de más arriba
-        Alumno alumno1 = new Alumno("Jose Rodriguez", new ArrayList<>(List.of(basesDeDatos)));
-        Alumno alumno2 = new Alumno("Vanesa Sosa", vacio);
-        Alumno alumno3 = new Alumno("Lucia Perez", new ArrayList<>(Arrays.asList(programacion1, programacion2)));
+        Alumno alumno1 = new Alumno("Jose Rodriguez");
+        alumno1.setMateriasAprobadas(basesDeDatos);
+        Alumno alumno2 = new Alumno("Vanesa Sosa");
+        Alumno alumno3 = new Alumno("Lucia Perez");
+        alumno3.setMateriasAprobadas(programacion1);
         Collection<Alumno> alumnos = new ArrayList<>(Arrays.asList(alumno1, alumno2, alumno3));
 
         // Leer el archivo parado por parámetros de args y por cada línea
