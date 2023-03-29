@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.Utilidades.LectorDeArchivos;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -10,7 +12,7 @@ import java.util.Collection;
 
 public class Main {
 
-    private static Alumno buscarAlumnoPorNombre(Collection<Alumno> alumnos, String nombre) {
+/*    private static Alumno buscarAlumnoPorNombre(Collection<Alumno> alumnos, String nombre) {
         for (Alumno alumno : alumnos) {
             if (alumno.getNombre().equals(nombre)) {
                 return alumno;
@@ -26,10 +28,25 @@ public class Main {
             }
         }
         throw new IllegalArgumentException("No se encontró ninguna materia con el nombre " + nombre);
-    }
+    }*/
 
     public static void main(String[] args) throws IOException {
-        // Inicializar materias: crear 3 o 4 materias, con y sin correlativas entre ellas
+
+        LectorDeArchivos lector = new LectorDeArchivos(args[0], args[1], args[2], args[3], args[4]);
+        lector.getMaterias();
+        lector.getCorrelativas();
+        lector.getAlumnos();
+        lector.getAprobadas();
+        lector.getInscripciones();
+
+        for (Inscripcion inscripcion : lector.getInscripciones()) {
+            System.out.print(inscripcion.aprobada() ? "Aprobado" : "Rechazado");
+        }
+
+
+
+
+   /*     // Inicializar materias: crear 3 o 4 materias, con y sin correlativas entre ellas
         //ArrayList<Materia> vacio = new ArrayList<>();
         Materia programacion1 = new Materia("Programacion I");
         Materia programacion2 = new Materia("Programacion II");
@@ -69,6 +86,6 @@ public class Main {
             }
         }
         reader.close();
-        writer.close();
+        writer.close();*/
     }
 }
