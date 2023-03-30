@@ -1,6 +1,8 @@
 package org.example.Utilidades;
 
 import org.example.Alumno;
+import org.example.Excepciones.MismaMateriaException;
+import org.example.Excepciones.NoSeEncuentraException;
 import org.example.Inscripcion;
 import org.example.Materia;
 
@@ -17,7 +19,7 @@ public class LectorDeArchivos {
     private String rutaAprobadas;
     private String rutaIncripciones;
 
-    public LectorDeArchivos(String rutaAlumnos, String rutaMaterias, String rutaCorrelativas, String rutaAprobadas, String rutaIncripciones){
+    public LectorDeArchivos(String rutaAlumnos, String rutaMaterias, String rutaCorrelativas, String rutaAprobadas, String rutaIncripciones) {
         this.rutaAlumnos = rutaAlumnos;
         this.rutaMaterias = rutaMaterias;
         this.rutaAprobadas = rutaAprobadas;
@@ -49,13 +51,13 @@ public class LectorDeArchivos {
         return alumnos;
     }
 
-    public Alumno buscarAlumnoPorNombre(Collection<Alumno> alumnos, String nombre) {
+    public Alumno buscarAlumnoPorNombre(Collection<Alumno> alumnos, String nombre) throws NoSeEncuentraException {
         for (Alumno alumno : alumnos) {
             if (alumno.getNombre().equals(nombre)) {
                 return alumno;
             }
         }
-        throw new IllegalArgumentException("No se encontró ningún alumno con el nombre " + nombre);
+        throw new NoSeEncuentraException("No se encontró ningún alumno con el nombre " + nombre);
     }
 
     public Collection<Materia> getMaterias() throws IOException {
@@ -82,19 +84,19 @@ public class LectorDeArchivos {
         return materias;
     }
 
-    public Materia buscarMateriaPorNombre(Collection<Materia> materias, String nombre) {
+    public Materia buscarMateriaPorNombre(Collection<Materia> materias, String nombre) throws NoSeEncuentraException {
         for (Materia materia : materias) {
             if (materia.getNombre().equals(nombre)) {
                 return materia;
             }
         }
-        throw new IllegalArgumentException("No se encontró ninguna materia con el nombre " + nombre);
+        throw new NoSeEncuentraException("No se encontró ninguna materia con el nombre " + nombre);
     }
 
     public void getAprobadas() throws IOException {
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(this.rutaMaterias));
+            reader = new BufferedReader(new FileReader(this.rutaAprobadas));
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -108,16 +110,17 @@ public class LectorDeArchivos {
                 Alumno alumno = buscarAlumnoPorNombre(getAlumnos(), nombreAlumno);
                 Materia materia = buscarMateriaPorNombre(getMaterias(), nombreMateria);
                 alumno.setMateriasAprobadas(materia);
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
+            } catch (NoSeEncuentraException e) {
+                // e.printStackTrace();
             }
         }
         reader.close();
     }
+
     public void getCorrelativas() throws IOException {
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(this.rutaMaterias));
+            reader = new BufferedReader(new FileReader(this.rutaCorrelativas));
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -132,7 +135,9 @@ public class LectorDeArchivos {
                 Materia materia = buscarMateriaPorNombre(getMaterias(), nombreMateria);
                 Materia correlativa = buscarMateriaPorNombre(getMaterias(), nombreCorrelativa);
                 materia.setCorrelativas(correlativa);
-            } catch (IllegalArgumentException e) {
+            } catch (NoSeEncuentraException | MismaMateriaException e) {
+                  e.printStackTrace();
+            } catch (RuntimeException e) {
                 e.printStackTrace();
             }
         }
@@ -143,24 +148,25 @@ public class LectorDeArchivos {
         List<Inscripcion> inscripciones = new ArrayList<>();
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(this.rutaMaterias));
+            reader = new BufferedReader(new FileReader(this.rutaIncripciones));
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        String line;
-        while ((line = reader.readLine()) != null) {
-            String[] parts = line.split(",");
-            String nombre = parts[0];
-            String nombreMateria = parts[1];
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                String nombre = parts[0];
+                String nombreMateria = parts[1];
 
-            try {
                 Alumno alumno = buscarAlumnoPorNombre(getAlumnos(), nombre);
                 Materia materia = buscarMateriaPorNombre(getMaterias(), nombreMateria);
                 Inscripcion inscripcion = new Inscripcion(alumno, materia);
                 inscripciones.add(inscripcion);
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
             }
+        } catch (NoSeEncuentraException e) {
+          //  System.out.println("No se encuentra el alumno o la materia");
+            inscripciones.add(new Inscripcion(new Alumno(line.split(",")[0]), new Materia(line.split(",")[1])));
         }
         reader.close();
         return inscripciones;

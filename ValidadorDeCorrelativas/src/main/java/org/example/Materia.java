@@ -19,6 +19,7 @@ public class Materia {
     }
 
     public boolean puedeCursar(Alumno alumno) {
+
         if(alumno.aproboMateria(this)) {
             throw new MismaMateriaException("El alumno " + alumno.getNombre() + " no puede cursar la materia " + this.nombre + " porque ya fue aprobada");
         }
@@ -36,7 +37,7 @@ public class Materia {
             throw new MismaMateriaException("Una materia no puede ser correlativa de si misma");
         }
         if (this.correlativas.contains(materia)) {
-            throw new RuntimeException("La materia " + materia.getNombre() + " ya es correlativa de " + this.nombre);
+            throw new MismaMateriaException("La materia " + materia.getNombre() + " ya es correlativa de " + this.nombre);
         }
         this.correlativas.add(materia);
     }

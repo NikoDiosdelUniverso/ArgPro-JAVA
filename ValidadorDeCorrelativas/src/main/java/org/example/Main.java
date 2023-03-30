@@ -40,7 +40,7 @@ public class Main {
         lector.getInscripciones();
 
         for (Inscripcion inscripcion : lector.getInscripciones()) {
-            System.out.print(inscripcion.aprobada() ? "Aprobado" : "Rechazado");
+            inscripcion.imprimirResultados(lector.getInscripciones(), args[5]);
         }
 
 

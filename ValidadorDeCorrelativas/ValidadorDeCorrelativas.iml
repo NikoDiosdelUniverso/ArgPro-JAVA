@@ -47,24 +47,24 @@ under the License.
      -->  
     <output url="file://$MODULE_DIR$/target/classes"/>  
     <output-test url="file://$MODULE_DIR$/target/test-classes"/>  
-    <orderEntry type="module-library"> 
-      <library> 
-        <CLASSES>
-          <root url="jar://C:/Users/ROG BY NG/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar!/"/>
-        </CLASSES>
-      </library> 
-    </orderEntry>  
-    <orderEntry type="module-library"> 
-      <library> 
-        <CLASSES>
-          <root url="jar://C:/Users/ROG BY NG/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar!/"/>
-        </CLASSES>
-      </library> 
-    </orderEntry>  
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://C:/Users/ROG BY NG/.m2/repository/org/projectlombok/lombok/1.18.26/lombok-1.18.26.jar!/"/>
+          <root url="jar://C:/Users/medin/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar!/"/>
+        </CLASSES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/medin/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar!/"/>
+        </CLASSES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Users/medin/.m2/repository/org/projectlombok/lombok/1.18.26/lombok-1.18.26.jar!/"/>
         </CLASSES>
       </library>
     </orderEntry>
