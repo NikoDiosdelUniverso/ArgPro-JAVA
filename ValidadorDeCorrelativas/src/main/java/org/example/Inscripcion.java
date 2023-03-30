@@ -16,16 +16,16 @@ public class Inscripcion {
         this.materia = materia;
     }
 
-    public boolean aprobada() {
-        try {
+    public boolean aprobada() throws MismaMateriaException {
+      //  try {
             return this.materia.puedeCursar(this.alumno);
-        } catch (MismaMateriaException e){
-           e.printStackTrace();
-        }
-        return false;
+      //  } catch (MismaMateriaException e){
+       //    e.printStackTrace();
+      //  }
+      //  return false;
     }
 
-    public void imprimirResultados(Collection<Inscripcion> listaDeInscripciones, String ruta) throws IOException {
+    public void imprimirResultados(Collection<Inscripcion> listaDeInscripciones, String ruta) throws IOException, MismaMateriaException {
         FileWriter writer = new FileWriter(ruta);
 
         for (Inscripcion inscripcion : listaDeInscripciones) {
