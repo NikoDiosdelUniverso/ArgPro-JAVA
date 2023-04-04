@@ -13,9 +13,11 @@ public class Main {
         6. El proceso anterior se debe repetir todas las veces que uno quiera
         7. Vale aclarar, que no se leen automáticamente los mensajes, uno debe elegir dicha opción
         */
+        String ruta = args[0];
         Scanner scanner = new Scanner(System.in);
         System.out.print("Ingrese su nombre: ");
         String nombre = scanner.nextLine();
+        LectorYEscritor chat = new LectorYEscritor(ruta, nombre);
         boolean seguir = true;
         while (seguir) {
             System.out.println("Seleccione una opción: ");
@@ -25,8 +27,8 @@ public class Main {
             int opcion = scanner.nextInt();
             scanner.nextLine();
             switch (opcion) {
-                case 1 -> LectorYEscritor.escribirMensaje(nombre);
-                case 2 -> LectorYEscritor.leerMensajes();
+                case 1 -> chat.escribirMensaje();
+                case 2 -> chat.leerMensajes();
                 case 3 -> seguir = false;
                 default -> System.out.println("Opción inválida.");
             }
