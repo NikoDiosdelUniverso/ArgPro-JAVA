@@ -9,18 +9,22 @@ public class Materia {
     String nombre;
     List<Materia> correlativas;
 
-    public Materia(String nombre){
+    public Materia(String nombre) {
         this.nombre = nombre;
         this.correlativas = new ArrayList<>();
     }
 
-    public String getNombre(){
+    public List<Materia> getCorrelativas() {
+        return correlativas;
+    }
+
+    public String getNombre() {
         return this.nombre;
     }
 
     public boolean puedeCursar(Alumno alumno) {
 
-        if(alumno.aproboMateria(this)) {
+        if (alumno.aproboMateria(this)) {
             throw new MismaMateriaException("El alumno " + alumno.getNombre() + " no puede cursar la materia " + this.nombre + " porque ya fue aprobada");
         }
 

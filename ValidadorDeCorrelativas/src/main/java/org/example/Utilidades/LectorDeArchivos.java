@@ -93,7 +93,7 @@ public class LectorDeArchivos {
         throw new NoSeEncuentraException("No se encontró ninguna materia con el nombre " + nombre);
     }
 
-    public void getAprobadas() throws IOException {
+    public void getAprobadas(Collection<Alumno> alumnos, Collection<Materia> materias) throws IOException {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(this.rutaAprobadas));
@@ -107,17 +107,19 @@ public class LectorDeArchivos {
             String nombreAlumno = parts[0];
             String nombreMateria = parts[1];
             try {
-                Alumno alumno = buscarAlumnoPorNombre(getAlumnos(), nombreAlumno);
-                Materia materia = buscarMateriaPorNombre(getMaterias(), nombreMateria);
+                Alumno alumno = buscarAlumnoPorNombre(alumnos, nombreAlumno);
+                Materia materia = buscarMateriaPorNombre(materias, nombreMateria);
                 alumno.setMateriasAprobadas(materia);
             } catch (NoSeEncuentraException e) {
                 // e.printStackTrace();
+            } catch (MismaMateriaException e){
+               e.printStackTrace();
             }
         }
         reader.close();
     }
 
-    public void getCorrelativas() throws IOException {
+    public void getCorrelativas(Collection<Materia> materias) throws IOException {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(this.rutaCorrelativas));
@@ -132,8 +134,8 @@ public class LectorDeArchivos {
             String nombreCorrelativa = parts[1];
 
             try {
-                Materia materia = buscarMateriaPorNombre(getMaterias(), nombreMateria);
-                Materia correlativa = buscarMateriaPorNombre(getMaterias(), nombreCorrelativa);
+                Materia materia = buscarMateriaPorNombre(materias, nombreMateria);
+                Materia correlativa = buscarMateriaPorNombre(materias, nombreCorrelativa);
                 materia.setCorrelativas(correlativa);
             } catch (NoSeEncuentraException | MismaMateriaException e) {
                   e.printStackTrace();
@@ -144,7 +146,7 @@ public class LectorDeArchivos {
         reader.close();
     }
 
-    public Collection<Inscripcion> getInscripciones() throws IOException {
+    public Collection<Inscripcion> getInscripciones(Collection<Alumno> alumnos, Collection<Materia> materias) throws IOException, NoSeEncuentraException {
         List<Inscripcion> inscripciones = new ArrayList<>();
         BufferedReader reader = null;
         try {
@@ -153,7 +155,26 @@ public class LectorDeArchivos {
             throw new RuntimeException(e);
         }
         String line = null;
-        try {
+        while ((line = reader.readLine()) != null) {
+       // try {
+           // while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                String nombre = parts[0];
+                String nombreMateria = parts[1];
+
+                Alumno alumno = buscarAlumnoPorNombre(alumnos, nombre);
+                Materia materia = buscarMateriaPorNombre(materias, nombreMateria);
+                Inscripcion inscripcion = new Inscripcion(alumno, materia);
+                inscripciones.add(inscripcion);
+        //    } catch (NoSeEncuentraException e) {
+            //  System.out.println("No se encuentra el alumno o la materia");
+         //   inscripciones.add(new Inscripcion(new Alumno(line.split(",")[0]), new Materia(line.split(",")[1])));
+         //   throw new NoSeEncuentraException("No se encuentra el alumno o la materia");
+      //  }
+        }
+
+
+    /*    try {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 String nombre = parts[0];
@@ -167,8 +188,9 @@ public class LectorDeArchivos {
         } catch (NoSeEncuentraException e) {
           //  System.out.println("No se encuentra el alumno o la materia");
             inscripciones.add(new Inscripcion(new Alumno(line.split(",")[0]), new Materia(line.split(",")[1])));
-        }
+        }*/
         reader.close();
         return inscripciones;
     }
+
 }
